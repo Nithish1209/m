@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+<pre>
+####################################READ FILE AND Count Word
+
+def count_words(line):
+words = line.split()  
+return len(words)  
+
+line_number = 1  
+
+with open('sam.txt', 'r') as file:  
+    for line in file:  
+        word_count = count_words(line)  
+        print(f"Line {line_number}: Word Count - {word_count}")  
+        line_number += 1 
+
+##############################################################CURRENT DATE AND time
+
+import time
+for i in range(1, 11):
+        current_time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
+        print(f"Iteration {i}: Current Time - {current_time}")
+
+        time.sleep(10)
+
+
+#################################################################LED LIGHT
+
+import RPi.GPIO as GPIO
+import time
+
+GPIO.setmode(GPIO.BOARD)
+GPIO.setup(10, GPIO.OUT)
+
+for i in range(50):
+    GPIO.output(10, True)
+    print("LED is ON")
+    time.sleep(0.1)
+    GPIO.output(10, False)
+    print("LED is OFF")
+    time.sleep(0.1)
+
+GPIO.cleanup()
+
+
+#####################################################################TWO SWITCHES AND LEDS 
+
+
+import RPi.GPIO as GPIO
+import time
+GPIO.setmode(GPIO.BOARD)
+s1=18
+s2=24
+l1=23
+l2=25
+GPIO.setup(s1,GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(s2,GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(l1,GPIO.OUT)
+GPIO.setup(l2,GPIO.OUT)
+try:
+    while True:
+
+            if GPIO.input(switch1_pin) == GPIO.LOW:
+               print("Switch 1 pressed. Turning on LED 1.")
+               GPIO.output(led1_pin, GPIO.HIGH)
+            else:
+                GPIO.output(led1_pin, GPIO.LOW)
+   
+            if GPIO.input(switch2_pin) == GPIO.LOW:
+                print("Switch 2 pressed. Turning on LED 2.")
+                GPIO.output(led2_pin, GPIO.HIGH)
+            else:
+                GPIO.output(led2_pin, GPIO.LOW)
+except KeyboardInterrupt:
+      print("Exiting program.")
+      GPIO.cleanup()
+
+####################################################################TWO TIMES ARE TAKEB FROM  A FILE 
+
+
+
+import sys
+import RPi.GPIO as GPIO
+import time
+GPIO.setmode(GPIO.BOARD)
+GPIO.setup(8,GPIO.OUT)
+x =open("filename.txt","r")
+for line in x:
+    print(line)
+s=int(line[0])
+end=int(line[2])
+print("strats at:",s,"ends at : ",end)
+try:
+    while(True):
+        GPIO.output(8,True)
+        time.sleep(s)
+        GPIO.output(8,False)
+        time.sleep(end)
+        print("*")
+finally:
+    GPIO.output(8,False)
+    GPIO.cleanup()
+
+
+######################################################################DHT SENSORR
+
+import time 
+import adafruit_dht 
+import board 
+dht_device = adafruit_dht.DHT22(board.D15) 
+while True: 
+    try: 
+        t_c = dht_device.temperature 
+        t_f = t_c * (9 / 5) + 32 
+        h = dht_device.humidity 
+        print(t_c, t_f, h) 
+    except RuntimeError as err: 
+        print(err.args[0]) 
+    time.sleep(2.0) 
+
+########################################################################ULTRASONIC SENSORR
+
+
+
+
+#######################################################################PIR SENSORR
+
+import RPi.GPIO as GPIO 
+PIR_input = 8 
+LED = 10 
+GPIO.setwarnings (False) 
+GPIO.setmode (GPIO.BOARD) 
+GPIO.setup(PIR_input, GPIO.IN) 
+GPIO.setup(LED, GPIO.OUT) 
+GPIO.output (LED, GPIO.LOW) 
+while True: 
+      if(GPIO.input (PIR_input)): 
+           print("Detected") 
+           GPIO.output(LED, GPIO.HIGH) 
+      else: 
+           GPIO.output(LED, GPIO.LOW) 
+           print("not detected") 
+
+
+#################################################################7-SEGMENT DISPLAY : 
+
+
+import RPi.GPIO as GPIO
+import time
+import os, sys
+GPIO.setwarnings(False)
+GPIO.setmode(GPIO.BOARD)
+
+GPIO.setup(35, GPIO.OUT)      
+GPIO.setup(12, GPIO.OUT)      
+GPIO.setup(36, GPIO.OUT)      
+GPIO.setup(33, GPIO.OUT)      
+GPIO.setup(32, GPIO.OUT)      
+GPIO.setup(38, GPIO.OUT)      
+GPIO.setup(40, GPIO.OUT)      
+
+digitclr=[1,1,1,1,1,1,1]
+digit0=[0,0,0,0,0,0,1]
+digit1=[1,0,0,1,1,1,1]
+digit2=[0,0,1,0,0,1,0]
+digit3=[0,0,0,0,1,1,0]
+digit4=[1,0,0,1,1,0,0]
+digit5=[0,1,0,0,1,0,0]
+digit6=[0,1,0,0,0,0,0,]
+digit7=[0,0,0,1,1,1,1]
+digit8=[0,0,0,0,0,0,0]
+digit9=[0,0,0,1,1,0,0,]
+gpin=[35,12,36,33,32,38,40]
+ 
+def digdisp(digit):
+    for x in range (0,7):
+        GPIO.output(gpin[x], digitclr[x])
+    for x in range (0,7):
+        GPIO.output(gpin[x], digit[x])
+ 
+digdisp(digit0)
+time.sleep(1)
+digdisp(digit1)
+time.sleep(1)
+digdisp(digit2)
+time.sleep(1)
+digdisp(digit3)
+time.sleep(1)
+digdisp(digit4)
+time.sleep(1)
+digdisp(digit5)
+time.sleep(1)
+digdisp(digit6)
+time.sleep(1)
+digdisp(digit7)
+time.sleep(1)
+digdisp(digit8)
+time.sleep(1)
+digdisp(digit9)
+time.sleep(1)
+GPIO.cleanup()
+sys.exit()
+
+
+</pre>
+</body>
+</html>
